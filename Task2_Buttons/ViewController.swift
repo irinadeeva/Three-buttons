@@ -41,13 +41,7 @@ final class ViewController: UIViewController {
         secondButton.setTitle("Second Medium", for: .normal)
         thirdButton.setTitle("Third Button", for: .normal)
 
-        firstButton.addTarget(self, action: #selector(animate(sender: )), for: .touchUpInside)
         thirdButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-
-    }
-
-    @objc func animate(sender: UIButton) {
-
     }
 
     @objc func buttonTapped() {
@@ -64,6 +58,17 @@ final class ViewController: UIViewController {
 }
 
 class CustomButton: UIButton {
+    private var scaleDownAnimator: UIViewPropertyAnimator?
+    private var scaleUpAnimator: UIViewPropertyAnimator?
+
+    override var isHighlighted: Bool {
+        get {
+            return false
+        }
+        set {
+            // Do nothing to prevent the default highlighting behavior
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,14 +80,33 @@ class CustomButton: UIButton {
     }
 
     func setupButton() {
-        layer.cornerRadius = 12
-
         configuration = .borderedProminent()
         configuration?.contentInsets = .init(top: 10, leading: 14, bottom: 10, trailing: 14)
         configuration?.titleAlignment = .center
         configuration?.imagePlacement = .trailing
         configuration?.image = UIImage(systemName: "arrow.forward.circle.fill")
         configuration?.imagePadding = 8
+
+        addTarget(self, action: #selector(handleTouchDown), for: .touchDown)
+        addTarget(self, action: #selector(handleTouchUp), for: [.touchUpInside, .touchUpOutside])
+    }
+
+    @objc private func handleTouchDown() {
+        scaleUpAnimator?.stopAnimation(true)
+
+        scaleDownAnimator = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.5) {
+            self.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+        }
+        scaleDownAnimator?.startAnimation()
+    }
+
+    @objc private func handleTouchUp() {
+        scaleDownAnimator?.stopAnimation(true)
+
+        scaleUpAnimator = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.5) {
+            self.transform = .identity
+        }
+        scaleUpAnimator?.startAnimation()
     }
 }
 
