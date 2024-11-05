@@ -87,6 +87,8 @@ class CustomButton: UIButton {
         configuration?.image = UIImage(systemName: "arrow.forward.circle.fill")
         configuration?.imagePadding = 8
 
+        layer.cornerRadius = 12
+
         addTarget(self, action: #selector(handleTouchDown), for: .touchDown)
         addTarget(self, action: #selector(handleTouchUp), for: [.touchUpInside, .touchUpOutside])
     }
