@@ -97,7 +97,7 @@ class CustomButton: UIButton {
         scaleUpAnimator?.stopAnimation(true)
 
         scaleDownAnimator = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.5) {
-            self.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+            self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         }
         scaleDownAnimator?.startAnimation()
     }
