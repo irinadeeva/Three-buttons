@@ -45,11 +45,6 @@ final class ViewController: UIViewController {
     }
 
     @objc func buttonTapped() {
-        [firstButton, secondButton, thirdButton].forEach {
-            $0.backgroundColor = .systemGray2
-            $0.imageView?.tintColor = .systemGray3
-            $0.titleLabel?.textColor = .systemGray3
-        }
 
         let vc = SheetController()
         vc.modalPresentationStyle = .formSheet
@@ -67,6 +62,21 @@ class CustomButton: UIButton {
         }
         set {
             // Do nothing to prevent the default highlighting behavior
+        }
+    }
+
+    override func tintColorDidChange() {
+        super.tintColorDidChange()
+
+        switch tintAdjustmentMode {
+        case .dimmed:
+            self.backgroundColor = .systemGray2
+            self.imageView?.tintColor = .systemGray3
+            self.titleLabel?.textColor = .systemGray3
+        default:
+            self.backgroundColor = .systemBlue
+            self.imageView?.tintColor = .white
+            self.titleLabel?.textColor = .white
         }
     }
 
